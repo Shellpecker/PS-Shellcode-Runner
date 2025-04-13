@@ -141,22 +141,6 @@ foreach ($line in $allLines) {
     }
 }
 
-# Now output the parsed instructions:
-$maxLeft = ($parsed | ForEach-Object {
-    ("{0}  {1,-20}  {2}" -f $_.Address, $_.HexSpaced, $_.Instr).Length
-} | Measure-Object -Maximum).Maximum
-
-foreach ($entry in $parsed) {
-    $left = "{0}  {1,-20}  {2}" -f $entry.Address, $entry.HexSpaced, $entry.Instr
-    $pad = ' ' * ($maxLeft - $left.Length)
-    if ($entry.BadBytes -and $entry.BadBytes.Count -gt 0) {
-        $whichBad = ($entry.BadBytes -join ' ')
-        $marker = "<-- BAD BYTE: $whichBad"
-        Write-Host "$left$pad  $marker" -ForegroundColor Red
-    } else {
-        Write-Host "$left$pad"
-    }
-}
 
 # Determine max length for alignment
 $maxLeft = ($parsed | ForEach-Object {
